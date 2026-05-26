@@ -286,4 +286,19 @@ sketch
 .history
 .ionide
 
+# Maven / Spring Boot
+target/
+*.jar
+*.war
+*.ear
+
+# Environment / secrets
+*.env
+application-local.properties
+application-dev.properties
+
+# OS files
+.DS_Store
+Thumbs.db
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,intellij,react
