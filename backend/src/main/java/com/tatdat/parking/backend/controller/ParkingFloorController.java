@@ -21,8 +21,37 @@ public class ParkingFloorController {
         return parkingFloorRepository.findAll();
     }
 
-    @GetMapping("/facility/{facilityId}")
-    public List<ParkingFloor> getFloorsByFacility(@PathVariable Integer facilityId) {
-        return parkingFloorRepository.findByFacilityId(facilityId);
+    @GetMapping("/{id}")
+    public ParkingFloor getParkingFloorById(@PathVariable Integer id) {
+        return parkingFloorRepository.findById(id).orElse(null);
+    }
+
+    @PostMapping
+    public ParkingFloor createParkingFloor(@RequestBody ParkingFloor parkingFloor) {
+        return parkingFloorRepository.save(parkingFloor);
+    }
+
+    @PutMapping("/{id}")
+    public ParkingFloor updateParkingFloor(
+            @PathVariable Integer id,
+            @RequestBody ParkingFloor updatedFloor
+    ) {
+        ParkingFloor parkingFloor =
+                parkingFloorRepository.findById(id).orElse(null);
+
+        if (parkingFloor != null) {
+            parkingFloor.setFloorName(updatedFloor.getFloorName());
+            parkingFloor.setFacility(updatedFloor.getFacility());
+
+            return parkingFloorRepository.save(parkingFloor);
+        }
+
+        return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteParkingFloor(@PathVariable Integer id) {
+        parkingFloorRepository.deleteById(id);
+        return "Deleted Successfully";
     }
 }
