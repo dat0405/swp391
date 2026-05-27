@@ -34,13 +34,41 @@ public class SecurityConfig {
                                 "/api/test/**"
                         ).permitAll()
 
-                        .requestMatchers("/api/users/**").hasAnyRole("DRIVER", "PARKING_MANAGER", "SYSTEM_ADMIN")
-                        .requestMatchers("/api/vehicles/**").hasAnyRole("DRIVER", "SYSTEM_ADMIN")
-                        .requestMatchers("/api/parking-facilities/**").hasAnyRole("PARKING_MANAGER", "SYSTEM_ADMIN")
-                        .requestMatchers("/api/parking-floors/**").hasAnyRole("PARKING_MANAGER", "SYSTEM_ADMIN")
-                        .requestMatchers("/api/parking-zones/**").hasAnyRole("PARKING_MANAGER", "SYSTEM_ADMIN")
-                        .requestMatchers("/api/parking-slots/**").hasAnyRole("PARKING_MANAGER", "SYSTEM_ADMIN")
-                        .requestMatchers("/api/roles/**").hasRole("SYSTEM_ADMIN")
+                        .requestMatchers("/api/users/**")
+                        .hasRole("SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/roles/**")
+                        .hasRole("SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/vehicles/**")
+                        .hasAnyRole("DRIVER", "PARKING_STAFF", "PARKING_MANAGER", "SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/vehicle-types/**")
+                        .hasAnyRole("DRIVER", "PARKING_STAFF", "PARKING_MANAGER", "SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/parking-facilities/**")
+                        .hasAnyRole("DRIVER", "PARKING_MANAGER", "SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/parking-floors/**")
+                        .hasAnyRole("PARKING_MANAGER", "SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/parking-zones/**")
+                        .hasAnyRole("DRIVER", "PARKING_MANAGER", "SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/parking-slots/**")
+                        .hasAnyRole("DRIVER", "PARKING_STAFF", "PARKING_MANAGER", "SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/parking-sessions/**")
+                        .hasAnyRole("DRIVER", "PARKING_STAFF", "PARKING_MANAGER", "SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/pricing-policies/**")
+                        .hasAnyRole("DRIVER", "PARKING_MANAGER", "SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/bookings/**")
+                        .hasAnyRole("DRIVER", "PARKING_STAFF", "PARKING_MANAGER", "SYSTEM_ADMIN")
+
+                        .requestMatchers("/api/payments/**")
+                        .hasAnyRole("DRIVER", "PARKING_STAFF", "PARKING_MANAGER", "SYSTEM_ADMIN")
 
                         .anyRequest().authenticated()
                 )
