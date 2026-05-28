@@ -323,4 +323,6 @@ application-prod.properties
 *.dump
 *.backup
 
+.idea/
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,intellij,react
