@@ -1,5 +1,6 @@
 package com.tatdat.parking.backend.controller;
 
+import com.tatdat.parking.backend.dto.ResetPasswordRequest;
 import com.tatdat.parking.backend.dto.UpdateUserRoleRequest;
 import com.tatdat.parking.backend.dto.UpdateUserStatusRequest;
 import com.tatdat.parking.backend.dto.UserResponse;
@@ -7,21 +8,20 @@ import com.tatdat.parking.backend.entity.Role;
 import com.tatdat.parking.backend.entity.User;
 import com.tatdat.parking.backend.repository.RoleRepository;
 import com.tatdat.parking.backend.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-
-    public UserController(UserRepository userRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public List<UserResponse> getAllUsers() {
@@ -73,6 +73,24 @@ public class UserController {
         }
 
         user.setStatus(status);
+        User savedUser = userRepository.save(user);
+
+        return mapToUserResponse(savedUser);
+    }
+
+    @PutMapping("/{id}/reset-password")
+    public UserResponse resetPassword(
+            @PathVariable Integer id,
+            @RequestBody ResetPasswordRequest request
+    ) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (request.getNewPassword() == null || request.getNewPassword().isBlank()) {
+            throw new RuntimeException("New password is required");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         User savedUser = userRepository.save(user);
 
         return mapToUserResponse(savedUser);
