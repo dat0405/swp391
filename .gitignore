@@ -301,4 +301,26 @@ application-dev.properties
 .DS_Store
 Thumbs.db
 
+# Spring Boot / Java
+target/
+*.class
+
+# Gradle, nếu sau này dùng Gradle
+.gradle/
+build/
+
+# Runtime upload files
+uploads/
+upload/
+files/
+
+# Local config
+application-secret.properties
+application-prod.properties
+
+# Database backup
+*.sql.bak
+*.dump
+*.backup
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,intellij,react
